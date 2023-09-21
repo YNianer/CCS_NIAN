@@ -218,7 +218,7 @@ xmax = 6000.001
     temperature = 37
   []
   [brineco2_sand]
-    type = ADPorousFlowFluidState
+    type = PorousFlowFluidState
     gas_porepressure = 'pgas'
     z = 'zi'
     temperature_unit = Celsius
@@ -228,7 +228,7 @@ xmax = 6000.001
     block = 'sand'
   []
   [brineco2_shale]
-    type = ADPorousFlowFluidState
+    type = PorousFlowFluidState
     gas_porepressure = 'pgas'
     z = 'zi'
     temperature_unit = Celsius
