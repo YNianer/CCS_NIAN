@@ -1,7 +1,7 @@
 [Mesh]
   [base_mesh]
     type = FileMeshGenerator
-    file = spe11a_3D.msh
+    file = spe11a_structured.msh
   []
   [set_block_names]
     type = RenameBlockGenerator
@@ -11,9 +11,15 @@
   []
   [top]
     type = ParsedGenerateSideset
-    combinatorial_geometry = 'z=1.2'
+    combinatorial_geometry = 'y=1.2'
     new_sideset_name = 'top'
    input = 'set_block_names'
+  []
+  [injection]
+    type = ParsedGenerateSideset
+    combinatorial_geometry = 'x>0.88&x<0.92&y>0.28&y<0.32'
+    new_sideset_name = 'injection'
+    input = 'top'
   []
    coord_type = 'XYZ'
 []
@@ -24,7 +30,7 @@
 
 [GlobalParams]
   PorousFlowDictator = 'dictator'
-  gravity = '0 0 -9.81'
+  gravity = '0 -9.81 0'
 []
 
 [AuxVariables]
@@ -112,7 +118,7 @@
   []
   [pc_1]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 1500
     pc_max = 9.5e4
     sat_lr = 0.32
@@ -120,7 +126,7 @@
   []
   [pc_2]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 300
     pc_max = 9.5e4
     sat_lr = 0.14
@@ -128,7 +134,7 @@
   []
   [pc_3]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 100
     pc_max = 9.5e4
     sat_lr = 0.12
@@ -136,7 +142,7 @@
   []
   [pc_4]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe =25
     pc_max = 9.5e4
     sat_lr = 0.12
@@ -144,7 +150,7 @@
   []
   [pc_5]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 10
     pc_max = 9.5e4
     sat_lr = 0.12
@@ -152,7 +158,7 @@
   []
   [pc_6]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 1
     pc_max = 9.5e4
     sat_lr = 0.10
@@ -160,7 +166,7 @@
   []
   [pc_7]
     type = PorousFlowCapillaryPressureBC
-    lambda = 2
+    lambda = 1.5
     pe = 1e-7
     pc_max = 9.5e4
     sat_lr = 0
@@ -377,112 +383,112 @@
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.32
-    sum_s_res = 0.42
-    n = 2
+    sum_s_res = 0.32
+    n = 1.5
     block = 'facies_1'
   []
   [relperm_gas_1]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.42
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_1'
   []
   [relperm_water_2]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.14
-    sum_s_res = 0.24
-    n = 2
+    sum_s_res = 0.14
+    n = 1.5
     block = 'facies_2'
   []
   [relperm_gas_2]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.24
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_2'
   []
   [relperm_water_3]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.12
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.12
+    n = 1.5
     block = 'facies_3'
   []
   [relperm_gas_3]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_3'
   []
   [relperm_water_4]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.12
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.12
+    n = 1.5
     block = 'facies_4'
   []
   [relperm_gas_4]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_4'
   []
   [relperm_water_5]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.12
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.12
+    n = 1.5
     block = 'facies_5'
   []
   [relperm_gas_5]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.22
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_5'
   []
   [relperm_water_6]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
     s_res = 0.1
-    sum_s_res = 0.2
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_6'
   []
   [relperm_gas_6]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
     s_res = 0.1
-    sum_s_res = 0.2
-    n = 2
+    sum_s_res = 0.1
+    n = 1.5
     block = 'facies_6'
   []
   [relperm_water_7]
     type = PorousFlowRelativePermeabilityCorey
     phase = 0
-    s_res = 0.0001
-    sum_s_res = 0.1001
-    n = 2
+    s_res = 0
+    sum_s_res = 0
+    n = 1.5
     block = 'facies_7'
   []
   [relperm_gas_7]
     type = PorousFlowRelativePermeabilityCorey
     phase = 1
-    s_res = 0.1
-    sum_s_res = 0.1001
-    n = 2
+    s_res = 0
+    sum_s_res = 0
+    n = 1.5
     block = 'facies_7'
   []
 []
@@ -500,27 +506,34 @@
     value = 0
     variable = zi
   []
+  [injection]
+    type = PorousFlowSink
+    boundary = injection
+    variable = zi
+    fluid_phase = 1
+    flux_function = '-4.81e-4'
+  []  
 []
 
 
-[DiracKernels]
-  [source1]
-    type = PorousFlowSquarePulsePointSource
-    point = '0.9 0.005 0.3'
-    mass_flux = 1.7e-7
-    variable = zi
-    start_time = 0
-    end_time = 18000
-  []
-  [source2]
-    type = PorousFlowSquarePulsePointSource
-    point = '1.7 0.005 0.7'
-    mass_flux = 1.7e-7
-    variable = zi
-    start_time = 9000
-    end_time = 18000
-  []
-[]
+#[DiracKernels]
+#  [source1]
+#    type = PorousFlowSquarePulsePointSource
+#    point = '0.9 0.005 0.3'
+#    mass_flux = 1.7e-7
+#    variable = zi
+#    start_time = 0
+#    end_time = 18000
+#  []
+#  [source2]
+#    type = PorousFlowSquarePulsePointSource
+#    point = '1.7 0.005 0.7'
+#    mass_flux = 1.7e-7
+#    variable = zi
+#    start_time = 9000
+#    end_time = 18000
+#  []
+#[]
 
 
 [Preconditioning]
@@ -529,20 +542,20 @@
     type = SMP
     full = true
     petsc_options_iname = '-ksp_type -pc_type -pc_asm_type -sub_pc_type -sub_pc_factor_shift_type -pc_asm_overlap  -snes_atol -snes_rtol -snes_max_it'
-    petsc_options_value = 'gmres      asm         restrict      lu          NONZERO                   2                1E-6       1E-10          15'
+    petsc_options_value = 'gmres      asm         restrict      lu          NONZERO                   2                1E-4       1E-10          15'
   []
   [smp1]
     type = SMP
     full = true
     petsc_options_iname = '-ksp_type -pc_type -pc_asm_type -sub_pc_type -sub_pc_factor_levels -sub_pc_factor_shift_type -pc_asm_overlap  -snes_atol -snes_rtol -snes_max_it'
-    petsc_options_value = 'gmres      asm         restrict      ilu          2                       NONZERO              2                1E-6       1E-10          10'
+    petsc_options_value = 'gmres      asm         restrict      ilu          2                       NONZERO              2                1E-4       1E-10          10'
   []
 []
 
 [Executioner]
   type = Transient
   solve_type = Newton
-  end_time = 4.32e5
+  end_time = 9000
   dtmax = 600
   l_max_its = 2000
   [TimeStepper]
