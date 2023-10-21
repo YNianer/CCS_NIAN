@@ -66,16 +66,15 @@ xmax = 6000.001
     old_block = '0 1'
     new_block = 'sand shale'
   []
-[]
-
-
-[Problem]
   coord_type = 'XYZ'
 []
+
 
 [GlobalParams]
   PorousFlowDictator = 'dictator'
   gravity = '0 0 -9.81'
+  temperature = temperature
+  log_extension = false
 []
 
 [AuxVariables]
@@ -88,7 +87,16 @@ xmax = 6000.001
     family = MONOMIAL
   []
   [xnacl]
+    family = MONOMIAL
+    order = CONSTANT
+    fv = true
     initial_condition = 0.032
+  []
+  [temperature]
+    family = MONOMIAL
+    order = CONSTANT
+    fv = true
+    initial_condition = 37
   []
 []
 
@@ -98,26 +106,29 @@ xmax = 6000.001
     variable = pressure_liquid
     property = pressure
     phase = 0
-    execute_on = 'timestep_end'
+    execute_on = 'initial timestep_end'
   []
   [saturation_gas]
     type = ADPorousFlowPropertyAux
     variable = saturation_gas
     property = saturation
     phase = 1
-    execute_on = 'timestep_end'
+    execute_on = 'initial timestep_end'
   []
 []
 
 [Variables]
   [pgas]
-    type = MooseVariableFVReal
-    #initial_condition = 1e6
+    family = MONOMIAL
+    order = CONSTANT
+    fv = true
   []
   [zi]
-    type = MooseVariableFVReal
-    initial_condition = 4.54104e-4
+    family = MONOMIAL
+    order = CONSTANT
+    fv = true
     scaling = 1e4
+    initial_condition = 4.54104e-4
   []
 []
 
@@ -157,14 +168,14 @@ xmax = 6000.001
     type = PorousFlowDictator
     porous_flow_vars = 'pgas zi'
     number_fluid_phases = 2
-    number_fluid_components = 3
+    number_fluid_components = 2
   []
   [pc_sand]
     type = PorousFlowCapillaryPressureVG
     alpha = 2.793e-4
     m = 0.400
     sat_lr = 0.2
-    pc_max = 1e7#7.2e6
+    pc_max = 1e7
     block = 'sand'
   []
   [fs_sand]
@@ -215,10 +226,10 @@ xmax = 6000.001
 [Materials]
   [temperature]
     type = ADPorousFlowTemperature
-    temperature = 37
+    temperature = temperature
   []
   [brineco2_sand]
-    type = PorousFlowFluidState
+    type = ADPorousFlowFluidState
     gas_porepressure = 'pgas'
     z = 'zi'
     temperature_unit = Celsius
@@ -228,7 +239,7 @@ xmax = 6000.001
     block = 'sand'
   []
   [brineco2_shale]
-    type = PorousFlowFluidState
+    type = ADPorousFlowFluidState
     gas_porepressure = 'pgas'
     z = 'zi'
     temperature_unit = Celsius
@@ -305,14 +316,8 @@ xmax = 6000.001
   [smp]
     type = SMP
     full = true
-    petsc_options_iname = '-ksp_type -pc_type -pc_asm_type -sub_pc_type -sub_pc_factor_shift_type -pc_asm_overlap  -snes_atol -snes_rtol -snes_max_it'
-    petsc_options_value = 'gmres      asm         restrict      lu          NONZERO                   2                1E-8       1E-1          15'
-  []
-  [smp1]
-    type = SMP
-    full = true
-    petsc_options_iname = '-ksp_type -pc_type -sub_pc_type -sub_pc_factor_shift_type -snes_atol -snes_rtol'
-    petsc_options_value = 'gmres bjacobi lu NONZERO 1e2 1e-5'
+    petsc_options_iname = '-ksp_type -pc_type -pc_asm_type -sub_pc_type -sub_pc_factor_shift_type -pc_asm_overlap'
+    petsc_options_value = 'gmres      asm         restrict      lu          NONZERO                   2 '
   []
 []
 
@@ -321,7 +326,12 @@ xmax = 6000.001
   solve_type = Newton
   end_time = 6.31152e7
   dtmax = 8.64e4
-  l_max_its = 1000
+  nl_rel_tol = 1e-6
+  nl_abs_tol = 1e-4
+  nl_max_its = 15
+  l_tol = 1e-5
+  l_abs_tol = 1e-8
+  line_search = none
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 100

@@ -1,7 +1,7 @@
 [Mesh]
   [base_mesh]
     type = FileMeshGenerator
-    file = spe11a_structured.msh
+    file = spe11c_structured.msh
   []
   [set_block_names]
     type = RenameBlockGenerator
@@ -11,13 +11,13 @@
   []
   [top]
     type = ParsedGenerateSideset
-    combinatorial_geometry = 'y=1.2'
+    combinatorial_geometry = 'z>1.2'
     new_sideset_name = 'top'
    input = 'set_block_names'
   []
   [injection]
     type = ParsedGenerateSideset
-    combinatorial_geometry = 'x>0.88&x<0.92&y>0.28&y<0.32'
+    combinatorial_geometry = 'x>0.88&x<0.92&z>0.28&z<0.32'
     new_sideset_name = 'injection'
     input = 'top'
   []
@@ -30,7 +30,7 @@
 
 [GlobalParams]
   PorousFlowDictator = 'dictator'
-  gravity = '0 -9.81 0'
+  gravity = '0 0 -9.81'
 []
 
 [AuxVariables]
@@ -511,7 +511,7 @@
     boundary = injection
     variable = zi
     fluid_phase = 1
-    flux_function = '-4.81e-4'
+    flux_function = '-3.61e-4'
   []  
 []
 
@@ -519,16 +519,16 @@
 #[DiracKernels]
 #  [source1]
 #    type = PorousFlowSquarePulsePointSource
-#    point = '0.9 0.005 0.3'
-#    mass_flux = 1.7e-7
+#    point = '0.9 0.3 0'
+#    mass_flux =3.61e-4
 #    variable = zi
 #    start_time = 0
 #    end_time = 18000
 #  []
 #  [source2]
 #    type = PorousFlowSquarePulsePointSource
-#    point = '1.7 0.005 0.7'
-#    mass_flux = 1.7e-7
+#    point = '1.7 0.7 0'
+#    mass_flux = 3.61e-4
 #    variable = zi
 #    start_time = 9000
 #    end_time = 18000
@@ -548,7 +548,7 @@
     type = SMP
     full = true
     petsc_options_iname = '-ksp_type -pc_type -pc_asm_type -sub_pc_type -sub_pc_factor_levels -sub_pc_factor_shift_type -pc_asm_overlap  -snes_atol -snes_rtol -snes_max_it'
-    petsc_options_value = 'gmres      asm         restrict      ilu          2                       NONZERO              2                1E-4       1E-10          10'
+    petsc_options_value = 'gmres      asm         restrict      ilu          2                       NONZERO              2                1E-5       1E-10          10'
   []
 []
 
@@ -561,7 +561,7 @@
   [TimeStepper]
     type = IterationAdaptiveDT
     dt = 1
-    growth_factor = 1.2
+    growth_factor = 1.5
   []
 []
 
